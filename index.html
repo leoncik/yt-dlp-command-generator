@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>yt-dlp Command Generator</title>
+  </head>
+  <body>
+    <h1>Build your command</h1>
+    <p>Configure options and copy the ready-made command</p>
+
+    <form>
+      <h2>Configuration</h2>
+      <p>Customize your download options</p>
+
+      <div class="form-group">
+        <label for="video-url"> Video URL </label>
+        <input id="video-url" type="text" />
+      </div>
+
+      <div class="form-group">
+        <fieldset>
+          <legend>Quality Preset</legend>
+          <input id="best" name="best" type="checkbox" />
+          <label for="best"> Best </label>
+
+          <input id="1080p" name="1080p" type="checkbox" />
+          <label for="1080p"> 1080p </label>
+
+          <input id="720p" name="720p" type="checkbox" />
+          <label for="720p"> 720p </label>
+
+          <input id="audio" name="audio" type="checkbox" />
+          <label for="audio"> Audio </label>
+        </fieldset>
+      </div>
+
+      <div class="form-group">
+        <label for="download-time-range" name="download-time-range">
+          Download Time range
+        </label>
+        <input id="download-time-range" type="checkbox" />
+
+        <fieldset>
+          <legend>Start Time</legend>
+          <label for="start-h">h</label>
+          <input type="number" id="start-h" name="start-h" />
+
+          <label for="start-m">m</label>
+          <input type="number" id="start-m" name="start-m" />
+
+          <label for="start-s">s</label>
+          <input type="number" id="start-s" name="start-s" />
+        </fieldset>
+
+        <fieldset>
+          <legend>End Time</legend>
+          <label for="end-h">h</label>
+          <input type="number" id="end-h" name="end-h" />
+
+          <label for="end-m">m</label>
+          <input type="number" id="end-m" name="end-m" />
+
+          <label for="end-s">s</label>
+          <input type="number" id="end-s" name="end-s" />
+        </fieldset>
+      </div>
+
+      <div class="form-group">
+        <label for="exclude-playlist" name="exclude-playlist">
+          Exclude playlist
+        </label>
+        <input id="exclude-playlist" type="checkbox" />
+      </div>
+
+      <div class="form-group">
+        <label for="custom-output-name" name="custom-output-name">
+          Custom Output Name
+        </label>
+        <input id="custom-output-name" type="checkbox" />
+      </div>
+    </form>
+
+    <div>
+      <h2>Generated command</h2>
+      <pre>
+        yt-dlp "&lt;URL&gt;"
+      </pre>
+      <button>Copy</button>
+    </div>
+  </body>
+</html>

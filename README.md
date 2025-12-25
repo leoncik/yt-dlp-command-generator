@@ -1,1 +1,1 @@
-# yt-dlp commend generator
+# yt-dlp command generator
