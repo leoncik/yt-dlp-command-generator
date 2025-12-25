@@ -4,6 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>yt-dlp Command Generator</title>
+    <style>
+      #download-time-range ~ fieldset {
+        display: none;
+      }
+    </style>
   </head>
   <body>
     <h1>Build your command</h1>
@@ -88,5 +93,43 @@
       </pre>
       <button>Copy</button>
     </div>
+    <script>
+      // Main form inputs
+      const videoUrlInput = document.getElementById("video-url");
+      const bestCheckbox = document.getElementById("best");
+      const p1080Checkbox = document.getElementById("1080p");
+      const p720Checkbox = document.getElementById("720p");
+      const audioCheckbox = document.getElementById("audio");
+      const timeRangeCheckbox = document.getElementById("download-time-range");
+      const excludePlaylistCheckbox =
+        document.getElementById("exclude-playlist");
+      const customOutputCheckbox =
+        document.getElementById("custom-output-name");
+
+      // Time inputs
+      const startH = document.getElementById("start-h");
+      const startM = document.getElementById("start-m");
+      const startS = document.getElementById("start-s");
+      const endH = document.getElementById("end-h");
+      const endM = document.getElementById("end-m");
+      const endS = document.getElementById("end-s");
+
+      // Output elements
+      const commandOutput = document.querySelector("pre");
+      const copyButton = document.querySelector("button");
+
+      // Time range fieldsets
+      const timeFieldsets = document.querySelectorAll(
+        "#download-time-range ~ fieldset"
+      );
+
+      // Toggle time range visibility
+      timeRangeCheckbox.addEventListener("change", () => {
+        const display = timeRangeCheckbox.checked ? "block" : "none";
+        timeFieldsets.forEach((fieldset) => {
+          fieldset.style.display = display;
+        });
+      });
+    </script>
   </body>
 </html>
