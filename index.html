@@ -123,6 +123,58 @@
         "#download-time-range ~ fieldset"
       );
 
+      // The mighty function to update your beloved command.
+      function updateCommand() {
+        let command = "yt-dlp";
+
+        // Add quality/format option
+        if (audioCheckbox.checked) {
+          command += " -x --audio-format mp3";
+        } else if (p1080Checkbox.checked) {
+          command +=
+            ' -f "bestvideo[height<=1080]+bestaudio/best[height<=1080]"';
+        } else if (p720Checkbox.checked) {
+          command += ' -f "bestvideo[height<=720]+bestaudio/best[height<=720]"';
+        } else if (bestCheckbox.checked) {
+          command += ' -f "bestvideo+bestaudio/best"';
+        }
+
+        // Add time range options
+        if (timeRangeCheckbox.checked) {
+          const startTime = formatTime(
+            startH.value,
+            startM.value,
+            startS.value
+          );
+          const endTime = formatTime(endH.value, endM.value, endS.value);
+          command += ` --download-sections "*${startTime}-${endTime}"`;
+        }
+
+        // Add exclude playlist option
+        if (excludePlaylistCheckbox.checked) {
+          command += " --no-playlist";
+        }
+
+        // Add custom output name option
+        if (customOutputCheckbox.checked) {
+          command += ' -o "%(title)s.%(ext)s"';
+        }
+
+        // Add URL
+        const url = videoUrlInput.value.trim();
+        command += ` "${url || "<URL>"}"`;
+
+        commandOutput.textContent = command;
+      }
+
+      // Function to format time as HH:MM:SS
+      function formatTime(hours, minutes, seconds) {
+        const h = String(hours || 0).padStart(2, "0");
+        const m = String(minutes || 0).padStart(2, "0");
+        const s = String(seconds || 0).padStart(2, "0");
+        return `${h}:${m}:${s}`;
+      }
+
       // Toggle time range visibility
       timeRangeCheckbox.addEventListener("change", () => {
         const display = timeRangeCheckbox.checked ? "block" : "none";
@@ -130,6 +182,9 @@
           fieldset.style.display = display;
         });
       });
+
+      // Listening to all inputs 	|ω･)ﾉ
+      videoUrlInput.addEventListener("input", updateCommand);
     </script>
   </body>
 </html>
