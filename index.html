@@ -5,14 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>yt-dlp Command Generator</title>
     <style>
+      body {
+        background-color: hsl(222, 47%, 8%);
+        color: white;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 42rem;
+        font-family: sans-serif;
+      }
+
+      header {
+        text-align: center;
+      }
+
+      form,
+      .output-wrapper {
+        background-color: hsl(222, 47%, 11%);
+        border-radius: 12px;
+        padding: 24px;
+      }
+
+      .togglable-options {
+        margin-top: 24px;
+        padding: 16px;
+        background-color: hsla(217, 33%, 17%, 0.3);
+      }
+
+      .output-wrapper {
+        margin-top: 24px;
+      }
+
       #download-time-range ~ fieldset {
         display: none;
       }
     </style>
   </head>
   <body>
-    <h1>Build your command</h1>
-    <p>Configure options and copy the ready-made command</p>
+    <header>
+      <h1>Build your command</h1>
+      <p>Configure options and copy the ready-made command</p>
+    </header>
 
     <form>
       <h2>Configuration</h2>
@@ -41,60 +73,62 @@
         </fieldset>
       </div>
 
-      <div class="form-group">
-        <label for="download-time-range" name="download-time-range">
-          Download Time range
-        </label>
-        <input id="download-time-range" type="checkbox" />
+      <div class="togglable-options">
+        <div class="form-group">
+          <label for="download-time-range" name="download-time-range">
+            Download Time range
+          </label>
+          <input id="download-time-range" type="checkbox" />
 
-        <fieldset>
-          <legend>Start Time</legend>
-          <label for="start-h">h</label>
-          <input type="number" id="start-h" name="start-h" />
+          <fieldset>
+            <legend>Start Time</legend>
+            <label for="start-h">h</label>
+            <input type="number" id="start-h" name="start-h" />
 
-          <label for="start-m">m</label>
-          <input type="number" id="start-m" name="start-m" />
+            <label for="start-m">m</label>
+            <input type="number" id="start-m" name="start-m" />
 
-          <label for="start-s">s</label>
-          <input type="number" id="start-s" name="start-s" />
-        </fieldset>
+            <label for="start-s">s</label>
+            <input type="number" id="start-s" name="start-s" />
+          </fieldset>
 
-        <fieldset>
-          <legend>End Time</legend>
-          <label for="end-h">h</label>
-          <input type="number" id="end-h" name="end-h" />
+          <fieldset>
+            <legend>End Time</legend>
+            <label for="end-h">h</label>
+            <input type="number" id="end-h" name="end-h" />
 
-          <label for="end-m">m</label>
-          <input type="number" id="end-m" name="end-m" />
+            <label for="end-m">m</label>
+            <input type="number" id="end-m" name="end-m" />
 
-          <label for="end-s">s</label>
-          <input type="number" id="end-s" name="end-s" />
-        </fieldset>
-      </div>
+            <label for="end-s">s</label>
+            <input type="number" id="end-s" name="end-s" />
+          </fieldset>
+        </div>
 
-      <div class="form-group">
-        <label for="exclude-playlist" name="exclude-playlist">
-          Exclude playlist
-        </label>
-        <input id="exclude-playlist" type="checkbox" />
-      </div>
+        <div class="form-group">
+          <label for="exclude-playlist" name="exclude-playlist">
+            Exclude playlist
+          </label>
+          <input id="exclude-playlist" type="checkbox" />
+        </div>
 
-      <div class="form-group">
-        <label for="custom-output-name">Custom Output Name</label>
-        <input id="custom-output-name" type="checkbox" />
+        <div class="form-group">
+          <label for="custom-output-name">Custom Output Name</label>
+          <input id="custom-output-name" type="checkbox" />
 
-        <fieldset id="custom-output-field" style="display: none">
-          <legend>Output Template</legend>
-          <input
-            id="output-template"
-            type="text"
-            placeholder="%(title)s.%(ext)s"
-          />
-        </fieldset>
+          <fieldset id="custom-output-field" style="display: none">
+            <legend>Output Template</legend>
+            <input
+              id="output-template"
+              type="text"
+              placeholder="%(title)s.%(ext)s"
+            />
+          </fieldset>
+        </div>
       </div>
     </form>
 
-    <div>
+    <div class="output-wrapper">
       <h2>Generated command</h2>
       <pre>
         yt-dlp "&lt;URL&gt;"
