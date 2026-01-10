@@ -101,8 +101,9 @@
         margin-top: 24px;
       }
 
-      #download-time-range ~ fieldset {
+      .time-fieldsets-wrapper {
         display: none;
+        margin-top: 16px;
       }
 
       /* Header */
@@ -399,7 +400,7 @@
                 name="quality"
                 type="radio"
                 value="best"
-                checked
+                checked=""
               />
               <label for="best">
                 <svg
@@ -559,29 +560,35 @@
             </label>
           </div>
 
-          <fieldset class="time-fieldset start-time-fieldset">
-            <legend>Start Time</legend>
-            <input type="number" id="start-h" name="start-h" />
-            <label for="start-h">h</label>
+          <div
+            id="time-fieldsets-wrapper"
+            class="time-fieldsets-wrapper"
+            style="display: none"
+          >
+            <fieldset class="time-fieldset start-time-fieldset">
+              <legend>Start Time</legend>
+              <input type="number" id="start-h" name="start-h" />
+              <label for="start-h">h</label>
 
-            <input type="number" id="start-m" name="start-m" />
-            <label for="start-m">m</label>
+              <input type="number" id="start-m" name="start-m" />
+              <label for="start-m">m</label>
 
-            <input type="number" id="start-s" name="start-s" />
-            <label for="start-s">s</label>
-          </fieldset>
+              <input type="number" id="start-s" name="start-s" />
+              <label for="start-s">s</label>
+            </fieldset>
 
-          <fieldset class="time-fieldset">
-            <legend>End Time</legend>
-            <input type="number" id="end-h" name="end-h" />
-            <label for="end-h">h</label>
+            <fieldset class="time-fieldset">
+              <legend>End Time</legend>
+              <input type="number" id="end-h" name="end-h" />
+              <label for="end-h">h</label>
 
-            <input type="number" id="end-m" name="end-m" />
-            <label for="end-m">m</label>
+              <input type="number" id="end-m" name="end-m" />
+              <label for="end-m">m</label>
 
-            <input type="number" id="end-s" name="end-s" />
-            <label for="end-s">s</label>
-          </fieldset>
+              <input type="number" id="end-s" name="end-s" />
+              <label for="end-s">s</label>
+            </fieldset>
+          </div>
         </div>
 
         <div class="form-group">
@@ -685,6 +692,7 @@
       const p1080Checkbox = document.getElementById("1080p");
       const p720Checkbox = document.getElementById("720p");
       const audioCheckbox = document.getElementById("audio");
+      const audioMp3Checkbox = document.getElementById("audio-mp3");
       const timeRangeCheckbox = document.getElementById("download-time-range");
       const excludePlaylistCheckbox =
         document.getElementById("exclude-playlist");
@@ -703,21 +711,24 @@
       const commandOutput = document.querySelector("pre");
       const copyButton = document.querySelector("button");
 
-      // Time range fieldsets
-      const timeFieldsets = document.querySelectorAll(
-        "#download-time-range ~ fieldset"
+      // Time range fieldsets wrapper
+      const timeFieldsetsWrapper = document.getElementById(
+        "time-fieldsets-wrapper"
       );
 
-      // Custom output name fieldset
+      // Custom output name fieldset and input
       const customOutputField = document.getElementById("custom-output-field");
+      const outputTemplateInput = document.getElementById("output-template");
 
       // The mighty function to update your beloved command.
       function updateCommand() {
         let command = "yt-dlp";
 
         // Add quality/format option
-        if (audioCheckbox.checked) {
+        if (audioMp3Checkbox.checked) {
           command += " -x --audio-format mp3";
+        } else if (audioCheckbox.checked) {
+          command += " -x";
         } else if (p1080Checkbox.checked) {
           command +=
             ' -f "bestvideo[height<=1080]+bestaudio/best[height<=1080]"';
@@ -745,7 +756,9 @@
 
         // Add custom output name option
         if (customOutputCheckbox.checked) {
-          command += ' -o "%(title)s.%(ext)s"';
+          const template =
+            outputTemplateInput.value.trim() || "%(title)s.%(ext)s";
+          command += ` -o "${template}"`;
         }
 
         // Add URL
@@ -765,10 +778,10 @@
 
       // Toggle time range visibility
       timeRangeCheckbox.addEventListener("change", () => {
-        const display = timeRangeCheckbox.checked ? "block" : "none";
-        timeFieldsets.forEach((fieldset) => {
-          fieldset.style.display = display;
-        });
+        timeFieldsetsWrapper.style.display = timeRangeCheckbox.checked
+          ? "block"
+          : "none";
+        updateCommand();
       });
 
       // Toggle custom output name visibility
@@ -776,14 +789,29 @@
         customOutputField.style.display = customOutputCheckbox.checked
           ? "block"
           : "none";
+        updateCommand();
       });
 
       // Listening to all inputs 	|ω･)ﾉ
       videoUrlInput.addEventListener("input", updateCommand);
-      customOutputCheckbox.addEventListener("change", updateCommand);
+      outputTemplateInput.addEventListener("input", updateCommand);
+
+      // Add event listeners for all quality radio buttons
+      [
+        bestCheckbox,
+        p1080Checkbox,
+        p720Checkbox,
+        audioCheckbox,
+        audioMp3Checkbox,
+      ].forEach((radio) => {
+        radio.addEventListener("change", updateCommand);
+      });
+
+      // Time inputs
       [startH, startM, startS, endH, endM, endS].forEach((input) => {
         input.addEventListener("input", updateCommand);
       });
+
       excludePlaylistCheckbox.addEventListener("change", updateCommand);
 
       // Copy to clipboard
@@ -804,6 +832,9 @@
           console.error("Failed to copy:", err);
         }
       });
+
+      // Initialize command on page load
+      updateCommand();
     </script>
   </body>
 </html>
