@@ -40,6 +40,32 @@
         transition: all 0.2s;
       }
 
+      /* Hiding the arrows for the number inputs... */
+      /* Chrome, Safari, Edge, Opera */
+      input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      /* Firefox */
+      input[type="number"] {
+        -moz-appearance: textfield;
+      }
+
+      input[type="number"] {
+        margin-top: 4px;
+        width: 100%;
+        height: 2.5rem;
+        padding: 0.5rem 0.75rem;
+        background-color: var(--background-color);
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        font-size: var(--14px);
+        color: white;
+        transition: all 0.2s;
+      }
+
       body {
         padding: 32px;
         background-color: var(--background-color);
@@ -260,6 +286,18 @@
         justify-content: space-between;
         align-items: center; /* Ensures text and switch are vertically centered */
       }
+
+      /* Time inputs */
+      .time-fieldset {
+        color: var(--muted);
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .start-time-fieldset {
+        margin-top: 16px;
+      }
     </style>
   </head>
   <body>
@@ -448,28 +486,28 @@
             </label>
           </div>
 
-          <fieldset>
+          <fieldset class="time-fieldset start-time-fieldset">
             <legend>Start Time</legend>
-            <label for="start-h">h</label>
             <input type="number" id="start-h" name="start-h" />
+            <label for="start-h">h</label>
 
-            <label for="start-m">m</label>
             <input type="number" id="start-m" name="start-m" />
+            <label for="start-m">m</label>
 
-            <label for="start-s">s</label>
             <input type="number" id="start-s" name="start-s" />
+            <label for="start-s">s</label>
           </fieldset>
 
-          <fieldset>
+          <fieldset class="time-fieldset">
             <legend>End Time</legend>
-            <label for="end-h">h</label>
             <input type="number" id="end-h" name="end-h" />
+            <label for="end-h">h</label>
 
-            <label for="end-m">m</label>
             <input type="number" id="end-m" name="end-m" />
+            <label for="end-m">m</label>
 
-            <label for="end-s">s</label>
             <input type="number" id="end-s" name="end-s" />
+            <label for="end-s">s</label>
           </fieldset>
         </div>
 
