@@ -1,15 +1,19 @@
 # yt-dlp command generator
 
-## About
+## Overview
 
 This is a simple tool to generate some common yt-dlp commands more easily.
 
+Try it out here: https://leoncik.github.io/yt-dlp-command-generator/
+
+![App screenshot](./app-screenshot.png)
+
 ## Main features
 
-- Auto-strip HTML tags when copying an embedded URL.
+- Automatically removes HTML tags from copied URLs for easier command generation.
 - Quality preset selection.
 - Audio download option.
-- Time range option in a friendly format (no need to worry about millisecond conversion).
+- Specify start and end times in a human-friendly format (e.g., `00:01:30-00:03:45`) without manually converting to milliseconds.
 - Custom output name option.
 
 ## Make it yours!
