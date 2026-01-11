@@ -439,6 +439,24 @@
           type="text"
           placeholder="Paste URL or embed code…"
         />
+        <p
+          id="extracted-url-info"
+          style="
+            display: none;
+            margin-top: 8px;
+            font-size: 0.75rem;
+            color: var(--muted);
+          "
+        >
+          Extracted:
+          <span
+            id="extracted-url"
+            style="
+              font-family: 'JetBrains Mono', monospace;
+              color: var(--primary);
+            "
+          ></span>
+        </p>
       </div>
 
       <div class="form-group">
@@ -777,6 +795,8 @@
       // Output elements
       const commandOutput = document.querySelector("pre");
       const copyButton = document.querySelector("button");
+      const extractedUrlInfo = document.getElementById("extracted-url-info");
+      const extractedUrlSpan = document.getElementById("extracted-url");
 
       // Time range fieldsets wrapper
       const timeFieldsetsWrapper = document.getElementById(
@@ -876,8 +896,26 @@
           command += ` -o "${template}"`;
         }
 
-        // Add URL
-        const url = videoUrlInput.value.trim();
+        // Add URL (extract from embed code if needed)
+        const rawValue = videoUrlInput.value.trim();
+        let url = rawValue;
+
+        // Check if it looks like an embed code (contains iframe and src)
+        if (rawValue.includes("<iframe") && rawValue.includes("src=")) {
+          // Extract the URL from src attribute
+          const srcMatch = rawValue.match(/src=["']([^"']+)["']/);
+          if (srcMatch && srcMatch[1]) {
+            url = srcMatch[1];
+            // Show extracted URL
+            extractedUrlSpan.textContent = url;
+            extractedUrlInfo.style.display = "block";
+          } else {
+            extractedUrlInfo.style.display = "none";
+          }
+        } else {
+          extractedUrlInfo.style.display = "none";
+        }
+
         command += ` "${url || "<URL>"}"`;
 
         commandOutput.textContent = command;
