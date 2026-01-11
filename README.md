@@ -10,7 +10,7 @@ Try it out here: https://leoncik.github.io/yt-dlp-command-generator/
 
 ## Main features
 
-- Automatically removes HTML tags from copied URLs for easier command generation.
+- Extracts URLs from HTML embed code for easier command generation.
 - Quality preset selection.
 - Audio download option.
 - Specify start and end times in a human-friendly format (e.g., `00:01:30-00:03:45`) without manually converting to milliseconds.
