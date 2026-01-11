@@ -18,7 +18,7 @@ Try it out here: https://leoncik.github.io/yt-dlp-command-generator/
 
 ## Make it yours!
 
-This tool is just an HTML file: you can copy it to your desktop and modify it according to your needs. If you prefer, know that this generator is also available as a PWA.
+This tool is just an HTML file: you can copy it to your desktop and modify it according to your needs.
 
 ## Similar projects
 
