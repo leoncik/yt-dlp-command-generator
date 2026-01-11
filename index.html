@@ -309,7 +309,6 @@
 
       .command-wrapper {
         margin-top: 12px;
-        position: relative;
       }
 
       /* Code block */
@@ -326,12 +325,11 @@
 
       /* Copy button */
       .copy-btn {
-        position: absolute;
-        top: 0.5rem;
-        right: 0.5rem;
-
-        display: inline-flex;
+        width: 100%;
+        margin-top: 12px;
+        display: flex;
         align-items: center;
+        justify-content: center;
         gap: 0.5rem;
 
         height: 2.25rem;
@@ -349,6 +347,19 @@
 
       .copy-btn:hover {
         background: hsla(262, 83%, 58%, 0.9);
+      }
+
+      /* Copied (success) state */
+      .copy-btn.copied {
+        background: hsl(142, 71%, 45%);
+      }
+
+      .copy-btn.copied:hover {
+        background: hsl(142, 71%, 40%);
+      }
+
+      .copy-btn.copied:focus-visible {
+        box-shadow: 0 0 0 2px white, 0 0 0 4px hsl(142, 71%, 45%);
       }
 
       /* Focus ring */
@@ -385,7 +396,7 @@
       <p class="configuration-sub-title">Customize your download options</p>
 
       <div class="form-group first">
-        <label for="video-url"> Video URL </label>
+        <label for="video-url"> Video URL / Embed Code </label>
         <input id="video-url" type="text" />
       </div>
 
@@ -680,7 +691,7 @@
               d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
             ></path>
           </svg>
-          Copy
+          Copy Command
         </button>
       </div>
     </div>
@@ -815,18 +826,35 @@
       excludePlaylistCheckbox.addEventListener("change", updateCommand);
 
       // Copy to clipboard
+      let copyResetTimer = null;
+
       copyButton.addEventListener("click", async () => {
         try {
           await navigator.clipboard.writeText(commandOutput.textContent);
-          const originalHTML = copyButton.innerHTML;
+
+          const originalHTML =
+            copyButton.dataset.originalHtml ||
+            (copyButton.dataset.originalHtml = copyButton.innerHTML);
+
+          // Clear any previous timer
+          if (copyResetTimer) {
+            clearTimeout(copyResetTimer);
+          }
+
+          // Apply success state
+          copyButton.classList.add("copied");
           copyButton.innerHTML = `
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="20 6 9 17 4 12"></polyline>
-            </svg>
-            Copied!
-          `;
-          setTimeout(() => {
-            copyButton.innerHTML = originalHTML;
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </svg>
+      Copied!
+    `;
+
+          // Start a fresh 2s timer
+          copyResetTimer = setTimeout(() => {
+            copyButton.classList.remove("copied");
+            copyButton.innerHTML = copyButton.dataset.originalHtml;
+            copyResetTimer = null;
           }, 2000);
         } catch (err) {
           console.error("Failed to copy:", err);
