@@ -845,18 +845,23 @@
         } else if (p720Checkbox.checked) {
           command += ' -f "bestvideo[height<=720]+bestaudio/best[height<=720]"';
         } else if (bestCheckbox.checked) {
-          command += ' -f "bestvideo+bestaudio/best"';
+          command += ' -f "bv*+ba/b"';
         }
 
-        // Add time range options
+        // Add time range options (only if checkbox is checked AND values are entered)
         if (timeRangeCheckbox.checked) {
-          const startTime = formatTime(
-            startH.value,
-            startM.value,
-            startS.value
-          );
-          const endTime = formatTime(endH.value, endM.value, endS.value);
-          command += ` --download-sections "*${startTime}-${endTime}"`;
+          const hasStartTime = startH.value || startM.value || startS.value;
+          const hasEndTime = endH.value || endM.value || endS.value;
+
+          if (hasStartTime || hasEndTime) {
+            const startTime = formatTime(
+              startH.value,
+              startM.value,
+              startS.value
+            );
+            const endTime = formatTime(endH.value, endM.value, endS.value);
+            command += ` --download-sections "*${startTime}-${endTime}"`;
+          }
         }
 
         // Add exclude playlist option
@@ -864,10 +869,9 @@
           command += " --no-playlist";
         }
 
-        // Add custom output name option
-        if (customOutputCheckbox.checked) {
-          const template =
-            outputTemplateInput.value.trim() || "%(title)s.%(ext)s";
+        // Add custom output name option (only if checkbox is checked AND value is entered)
+        if (customOutputCheckbox.checked && outputTemplateInput.value.trim()) {
+          const template = outputTemplateInput.value.trim();
           command += ` -o "${template}"`;
         }
 
