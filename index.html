@@ -736,6 +736,50 @@
       const customOutputField = document.getElementById("custom-output-field");
       const outputTemplateInput = document.getElementById("output-template");
 
+      // LocalStorage helpers
+      const STORAGE_KEY = "yt-dlp-form";
+
+      function saveState() {
+        const state = {
+          best: bestCheckbox.checked,
+          p1080: p1080Checkbox.checked,
+          p720: p720Checkbox.checked,
+          audio: audioCheckbox.checked,
+          audioMp3: audioMp3Checkbox.checked,
+
+          timeRange: timeRangeCheckbox.checked,
+          excludePlaylist: excludePlaylistCheckbox.checked,
+          customOutput: customOutputCheckbox.checked,
+        };
+
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      }
+
+      function loadState() {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return;
+
+        const state = JSON.parse(raw);
+
+        bestCheckbox.checked = state.best;
+        p1080Checkbox.checked = state.p1080;
+        p720Checkbox.checked = state.p720;
+        audioCheckbox.checked = state.audio;
+        audioMp3Checkbox.checked = state.audioMp3;
+
+        timeRangeCheckbox.checked = state.timeRange;
+        excludePlaylistCheckbox.checked = state.excludePlaylist;
+        customOutputCheckbox.checked = state.customOutput;
+
+        // Restore UI visibility
+        timeFieldsetsWrapper.style.display = timeRangeCheckbox.checked
+          ? "block"
+          : "none";
+        customOutputField.style.display = customOutputCheckbox.checked
+          ? "block"
+          : "none";
+      }
+
       // The mighty function to update your beloved command.
       function updateCommand() {
         let command = "yt-dlp";
@@ -782,6 +826,9 @@
         command += ` "${url || "<URL>"}"`;
 
         commandOutput.textContent = command;
+
+        // Save after every change
+        saveState();
       }
 
       // Function to format time as HH:MM:SS
@@ -865,6 +912,9 @@
           console.error("Failed to copy:", err);
         }
       });
+
+      // Load saved state first
+      loadState();
 
       // Initialize command on page load
       updateCommand();
