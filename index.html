@@ -55,6 +55,7 @@
 
       input[type="number"] {
         margin-top: 4px;
+        font-family: "JetBrains Mono", monospace;
         width: 100%;
         height: 2.5rem;
         padding: 0.5rem 0.75rem;
@@ -64,6 +65,16 @@
         font-size: var(--14px);
         color: white;
         transition: all 0.2s;
+      }
+
+      ::placeholder {
+        color: var(--muted);
+        opacity: 1; /* Firefox */
+      }
+
+      ::-ms-input-placeholder {
+        /* Edge 12 -18 */
+        color: var(--muted);
       }
 
       body {
@@ -94,6 +105,8 @@
       .togglable-options {
         margin-top: 24px;
         padding: 16px;
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
         background-color: hsla(217, 33%, 17%, 0.3);
       }
 
@@ -131,7 +144,8 @@
 
       .configuration-sub-title {
         margin-top: 6px;
-        margin-bottom: 16px;
+        margin-bottom: 24px;
+        font-size: var(--14px);
         color: var(--muted);
       }
 
@@ -218,16 +232,16 @@
       /* Ensure the SVG inside doesn't shrink */
       .toggle-label-group svg {
         flex-shrink: 0;
-        width: 1.25rem;
-        height: 1.25rem;
+        width: 1rem;
+        height: 1rem;
         color: var(--muted);
       }
 
       .toggle-switch {
         position: relative;
         display: inline-block;
-        width: 3rem; /* 48px */
-        height: 1.75rem; /* 28px */
+        width: 2.75rem; /* 44px */
+        height: 1.5rem; /* 24px */
         flex-shrink: 0; /* Prevents shrinking in flex containers */
       }
 
@@ -242,28 +256,26 @@
       /* The slider (track) */
       .slider {
         position: absolute;
+        inset: 0;
         cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: hsl(217, 33%, 20%); /* Default off color */
-        transition: 0.3s;
-        border-radius: 2rem;
+        background-color: hsl(217, 33%, 20%);
+        border-radius: 999px;
+        transition: background-color 150ms ease;
       }
 
       /* The slider thumb (circle) */
-      .slider:before {
-        position: absolute;
+      .slider::before {
         content: "";
+        position: absolute;
         height: 1.25rem; /* 20px */
         width: 1.25rem;
-        left: 0.25rem;
-        bottom: 0.25rem;
+        left: 2px;
+        top: 50%;
+        transform: translateY(-50%);
         background-color: var(--background-color);
-        transition: 0.3s;
         border-radius: 50%;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        transition: transform 150ms ease;
       }
 
       /* Checked State */
@@ -271,8 +283,8 @@
         background-color: var(--primary);
       }
 
-      .toggle-switch input:checked + .slider:before {
-        transform: translateX(1.25rem); /* Move thumb to the right */
+      .toggle-switch input:checked + .slider::before {
+        transform: translate(1.25rem, -50%);
       }
 
       /* Accessibility: Focus Ring */
@@ -286,6 +298,10 @@
         display: flex;
         justify-content: space-between;
         align-items: center; /* Ensures text and switch are vertically centered */
+      }
+
+      .toggle-label-group label {
+        font-size: var(--14px);
       }
 
       /* Time inputs */
@@ -402,7 +418,11 @@
 
       <div class="form-group first">
         <label for="video-url"> Video URL / Embed Code </label>
-        <input id="video-url" type="text" />
+        <input
+          id="video-url"
+          type="text"
+          placeholder="Paste URL or embed code…"
+        />
       </div>
 
       <div class="form-group">
@@ -550,7 +570,7 @@
       </div>
 
       <div class="togglable-options">
-        <div class="form-group">
+        <div class="form-group first">
           <div class="toggle-row">
             <div class="toggle-label-group">
               <svg
@@ -583,25 +603,40 @@
           >
             <fieldset class="time-fieldset start-time-fieldset">
               <legend>Start Time</legend>
-              <input type="number" id="start-h" name="start-h" />
+              <input
+                type="number"
+                id="start-h"
+                name="start-h"
+                placeholder="0"
+              />
               <label for="start-h">h</label>
 
-              <input type="number" id="start-m" name="start-m" />
+              <input
+                type="number"
+                id="start-m"
+                name="start-m"
+                placeholder="0"
+              />
               <label for="start-m">m</label>
 
-              <input type="number" id="start-s" name="start-s" />
+              <input
+                type="number"
+                id="start-s"
+                name="start-s"
+                placeholder="0"
+              />
               <label for="start-s">s</label>
             </fieldset>
 
             <fieldset class="time-fieldset">
               <legend>End Time</legend>
-              <input type="number" id="end-h" name="end-h" />
+              <input type="number" id="end-h" name="end-h" placeholder="0" />
               <label for="end-h">h</label>
 
-              <input type="number" id="end-m" name="end-m" />
+              <input type="number" id="end-m" name="end-m" placeholder="0" />
               <label for="end-m">m</label>
 
-              <input type="number" id="end-s" name="end-s" />
+              <input type="number" id="end-s" name="end-s" placeholder="0" />
               <label for="end-s">s</label>
             </fieldset>
           </div>
