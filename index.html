@@ -77,6 +77,17 @@
         color: var(--muted);
       }
 
+      /* Custom focus ring... maybe I have duplicated this ring, ooops! */
+      input:focus,
+      input:focus-visible {
+        outline: none;
+      }
+
+      input:focus-visible {
+        box-shadow: 0 0 0 2px var(--primary);
+        border-radius: 6px;
+      }
+
       body {
         padding: 32px;
         background-color: var(--background-color);
@@ -314,6 +325,10 @@
 
       .start-time-fieldset {
         margin-top: 16px;
+      }
+
+      .end-time-fieldset {
+        margin-top: 12px;
       }
 
       /* Custom name stuff */
@@ -628,7 +643,7 @@
               <label for="start-s">s</label>
             </fieldset>
 
-            <fieldset class="time-fieldset">
+            <fieldset class="time-fieldset end-time-fieldset">
               <legend>End Time</legend>
               <input type="number" id="end-h" name="end-h" placeholder="0" />
               <label for="end-h">h</label>
