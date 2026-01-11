@@ -247,7 +247,7 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background-color: var(--muted); /* Default off color */
+        background-color: hsl(217, 33%, 20%); /* Default off color */
         transition: 0.3s;
         border-radius: 2rem;
       }
@@ -260,7 +260,7 @@
         width: 1.25rem;
         left: 0.25rem;
         bottom: 0.25rem;
-        background-color: white;
+        background-color: var(--background-color);
         transition: 0.3s;
         border-radius: 50%;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -298,6 +298,11 @@
 
       .start-time-fieldset {
         margin-top: 16px;
+      }
+
+      /* Custom name stuff */
+      #custom-output-field label {
+        color: var(--muted);
       }
 
       /* Generated command stuff */
@@ -663,15 +668,15 @@
             </label>
           </div>
 
-          <fieldset
-            id="custom-output-field"
-            style="display: none; margin-top: 16px"
-          >
-            <legend>Output Template</legend>
+          <fieldset id="custom-output-field" hidden style="margin-top: 16px">
+            <legend>
+              <label for="output-template">File name</label>
+            </legend>
+
             <input
               id="output-template"
               type="text"
-              placeholder="%(title)s.%(ext)s"
+              placeholder="Any name you want…"
             />
           </fieldset>
         </div>
