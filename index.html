@@ -892,7 +892,20 @@
 
         // Add custom output name option (only if checkbox is checked AND value is entered)
         if (customOutputCheckbox.checked && outputTemplateInput.value.trim()) {
-          const template = outputTemplateInput.value.trim();
+          let template = outputTemplateInput.value.trim();
+          
+          // Auto-append extension if not present
+          const hasExtension = /\.\w+$/.test(template);
+          if (!hasExtension) {
+            if (audioMp3Checkbox.checked) {
+              template += ".mp3";
+            } else if (audioCheckbox.checked) {
+              template += ".%(ext)s";
+            } else {
+              template += ".%(ext)s";
+            }
+          }
+          
           command += ` -o "${template}"`;
         }
 
